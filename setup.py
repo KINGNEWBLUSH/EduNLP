@@ -1,6 +1,7 @@
 import logging
 from setuptools import setup, find_packages
 
+
 tutor_deps = [
     "pillow",
     "tqdm",
@@ -58,7 +59,11 @@ setup(
     install_requires=[
         'networkx',
         'numpy>=1.17.0',
+        'zip',
         'jieba',
+        'nltk',
+        'spacy',
+        'tokenizers',
         'js2py',
         'EduData>=0.0.16',
         'PyBaize>=0.0.3'
@@ -66,6 +71,7 @@ setup(
     entry_points={
         "console_scripts": [
             "edunlp = EduNLP.main:cli",
+            # 'pkg_download=EduNLP.pkg_download:main',
         ],
     },
     classifiers=[
