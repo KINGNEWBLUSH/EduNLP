@@ -61,7 +61,6 @@ setup(
         'networkx',
         'numpy>=1.17.0',
         'jieba',
-        'zip',
         'nltk',
         'spacy',
         'tokenizers',
