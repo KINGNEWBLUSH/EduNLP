@@ -1,13 +1,14 @@
 import logging
 from setuptools import setup, find_packages
 
+
 tutor_deps = [
     "pillow",
     "tqdm",
     "ipython"
 ]
 test_deps = [
-    'pytest<=8.0.2',
+    'pytest>=4',
     'pytest-cov>=2.6.0',
     'pytest-flake8',
     'flake8<5.0.0'
@@ -38,29 +39,31 @@ except ModuleNotFoundError:
 
 vec_deps = [
     'gensim',
-    'smart-open==6.4.0',
     'transformers<4.29.0',
-    "tensorboard",
     'torchvision',
     'datasets'] + ml_pytorch_deps
 
 setup(
     name='EduNLP',
-    version='1.0.1',
+    version='0.0.9',
     extras_require={
         'test': test_deps,
         'doc': docs_deps,
         'tutor': tutor_deps,
         'dev': dev_deps,
         'vec': vec_deps,
-        'full': vec_deps + tutor_deps + dev_deps
+        'full': vec_deps + tutor_deps
     },
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
         'networkx',
         'numpy>=1.17.0',
+        'zip',
         'jieba',
+        'nltk',
+        'spacy',
+        'tokenizers',
         'js2py',
         'EduData>=0.0.16',
         'PyBaize>=0.0.3'
@@ -68,6 +71,7 @@ setup(
     entry_points={
         "console_scripts": [
             "edunlp = EduNLP.main:cli",
+            # 'pkg_download=EduNLP.pkg_download:main',
         ],
     },
     classifiers=[
