@@ -65,7 +65,7 @@ def test_Tokenizer():
         'are', 'sold'
     ]
     for tok in ['nltk', 'spacy']:
-        tokenizer = get_tokenizer("pure_text",
+        tokenizer = get_tokenizer("char",
                                   stop_words=set(",?"),
                                   text_params={"tokenizer": tok})
         tokens = tokenizer(items, key=lambda x: x['stem'])
