@@ -1,24 +1,13 @@
 import logging
 from setuptools import setup, find_packages
 
-tutor_deps = [
-    "pillow",
-    "tqdm",
-    "ipython"
-]
+tutor_deps = ["pillow", "tqdm", "ipython"]
 test_deps = [
-    'pytest<=8.0.2',
-    'pytest-cov>=2.6.0',
-    'pytest-flake8',
-    'flake8<5.0.0'
+    'pytest<=8.0.2', 'pytest-cov>=2.6.0', 'pytest-flake8', 'flake8<5.0.0'
 ]
 docs_deps = [
-    'sphinx',
-    'sphinx_rtd_theme',
-    'sphinx_toggleprompt',
-    'sphinx-gallery>=0.6',
-    'nbsphinx',
-    'm2r2'
+    'sphinx', 'sphinx_rtd_theme', 'sphinx_toggleprompt', 'sphinx-gallery>=0.6',
+    'nbsphinx', 'm2r2'
 ]
 
 dev_deps = ["requests"] + docs_deps + test_deps
@@ -34,15 +23,14 @@ except ModuleNotFoundError:
         ml_pytorch_deps = ["torch<=1.12.1"]
     else:
         ml_pytorch_deps = []
-        logging.warning("Current python version %s is not supported by pytorch", str(sys.version_info[:2]))
+        logging.warning(
+            "Current python version %s is not supported by pytorch",
+            str(sys.version_info[:2]))
 
 vec_deps = [
-    'gensim',
-    'smart-open==6.4.0',
-    'transformers<4.29.0',
-    "tensorboard",
-    'torchvision',
-    'datasets'] + ml_pytorch_deps
+    'gensim', 'smart-open==6.4.0', 'transformers<4.29.0', "tensorboard",
+    'torchvision', 'datasets'
+] + ml_pytorch_deps
 
 setup(
     name='EduNLP',
@@ -58,15 +46,8 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'networkx',
-        'numpy>=1.17.0',
-        'jieba',
-        'nltk',
-        'spacy',
-        'tokenizers',
-        'js2py',
-        'EduData>=0.0.16',
-        'PyBaize>=0.0.3'
+        'networkx', 'numpy>=1.17.0', 'jieba', 'nltk', 'spacy', 'tokenizers',
+        'js2py', 'EduData>=0.0.16', 'PyBaize>=0.0.3'
     ],  # And any other dependencies foo needs
     entry_points={
         "console_scripts": [
@@ -74,9 +55,9 @@ setup(
         ],
     },
     classifiers=[
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
+        # 'Programming Language :: Python :: 3.6',
+        # 'Programming Language :: Python :: 3.7',
+        # 'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         "Environment :: Other Environment",
         "Intended Audience :: Developers",

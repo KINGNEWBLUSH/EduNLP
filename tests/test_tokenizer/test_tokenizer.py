@@ -45,23 +45,33 @@ def test_CharTokenizer():
     tokenizer = get_tokenizer("char", stop_words=set("，？"))
     tokens = tokenizer(items, key=lambda x: x['stem'])
     ret = next(tokens)
-    ans = ['文', '具', '店', '有', '$', '600', '$', '本', '练', '习', '本', '卖', '出', '一',
-           '些', '后', '还', '剩', '$', '4', '$', '包', '每', '包', '$', '25', '$', '本', '卖', '出', '多', '少', '本']
+    ans = [
+        '文', '具', '店', '有', '$', '600', '$', '本', '练', '习', '本', '卖', '出', '一',
+        '些', '后', '还', '剩', '$', '4', '$', '包', '每', '包', '$', '25', '$', '本',
+        '卖', '出', '多', '少', '本'
+    ]
     assert ret == ans
 
 
 def test_Tokenizer():
     items = [{
-        "stem": "The stationery store has $600$ exercise books, and after selling some, there are still $4$ packs left, $25$ each, how many are sold?",
+        "stem":
+        "The stationery store has $600$ exercise books, and after selling some, there are still $4$ packs left, $25$ each, how many are sold?",
     }]
-    ans = ['The', 'stationery', 'store', 'has', '$', '600', '$', 'exercise', 'books', 'and', 'after', 'selling', 'some', 'there',
-           'are', 'still','$', '4', '$', 'packs', 'left', '$', '25', '$', 'each', 'how', 'many', 'are', 'sold']
+    ans = [
+        'The', 'stationery', 'store', 'has', '$', '600', '$', 'exercise',
+        'books', 'and', 'after', 'selling', 'some', 'there', 'are', 'still',
+        '$', '4', '$', 'packs', 'left', '$', '25', '$', 'each', 'how', 'many',
+        'are', 'sold'
+    ]
     for tok in ['nltk', 'spacy']:
-        tokenizer = get_tokenizer(text_params={"tokenizer":tok, "stop_words":set(",?")})
+        tokenizer = get_tokenizer("pure_text",
+                                  stop_words=set(",?"),
+                                  text_params={"tokenizer": tok})
         tokens = tokenizer(items, key=lambda x: x['stem'])
         ret = next(tokens)
         assert ret == ans
-    
+
 
 def test_SpaceTokenizer():
     items = ['文具店有 $600$ 本练习本，卖出一些后，还剩 $4$ 包，每包 $25$ 本，卖出多少本？']
@@ -77,7 +87,10 @@ def test_AstformulaTokenizer():
     tokenizer = get_tokenizer("ast_formula")
     tokens = tokenizer(items)
     ret = next(tokens)
-    ans = ['文具店', 'textord', 'textord', 'textord', '练习本', '卖出', '剩', 'textord', '包', '每包', 'textord', 'textord', '卖出']
+    ans = [
+        '文具店', 'textord', 'textord', 'textord', '练习本', '卖出', '剩', 'textord',
+        '包', '每包', 'textord', 'textord', '卖出'
+    ]
     assert ret == ans
 
 
@@ -88,16 +101,22 @@ def test_PuretextTokenizer():
     ret = next(tokens)
     ans = ['文具店', '600', '练习本', '卖出', '剩', '4', '包', '每包', '25', '卖出']
     assert ret == ans
-    tokenizer = get_tokenizer("pure_text", stop_words=[], handle_figure_formula=None)
+    tokenizer = get_tokenizer("pure_text",
+                              stop_words=[],
+                              handle_figure_formula=None)
     tokens = tokenizer(items)
     ret = next(tokens)
     assert ret == ans
-    tokenizer = get_tokenizer("pure_text", stop_words=[], handle_figure_formula='symbolize')
+    tokenizer = get_tokenizer("pure_text",
+                              stop_words=[],
+                              handle_figure_formula='symbolize')
     tokens = tokenizer(items)
     ret = next(tokens)
     assert ret == ans
     with pytest.raises(ValueError):
-        tokenizer = get_tokenizer("pure_text", stop_words=[], handle_figure_formula='wrong')
+        tokenizer = get_tokenizer("pure_text",
+                                  stop_words=[],
+                                  handle_figure_formula='wrong')
 
 
 def test_CustomTokenizer():
@@ -108,18 +127,26 @@ def test_CustomTokenizer():
     tokenizer = get_tokenizer("custom", symbol='f')
     tokens = tokenizer(items, key=lambda x: x['stem'])
     ret = next(tokens)
-    ans = ['文具店', '[FORMULA]', '练习本', '卖出', '剩', '[FORMULA]', '包', '每包', '[FORMULA]', '卖出']
+    ans = [
+        '文具店', '[FORMULA]', '练习本', '卖出', '剩', '[FORMULA]', '包', '每包',
+        '[FORMULA]', '卖出'
+    ]
     assert ret == ans
     items = [{
-        "stem": "有公式$\\FormFigureID{1}$，如图$\\FigureID{088f15ea-xxx}$,若$x,y$满足约束条件公式$\\F\
+        "stem":
+        "有公式$\\FormFigureID{1}$，如图$\\FigureID{088f15ea-xxx}$,若$x,y$满足约束条件公式$\\F\
             ormFigureBase64{2}$,$\\SIFSep$，则$z=x+7 y$的最大值为$\\SIFBlank$",
         "options": ["1", "2"]
     }]
-    tokenizer = get_tokenizer("custom", symbol='f', handle_figure_formula="symbolize")
+    tokenizer = get_tokenizer("custom",
+                              symbol='f',
+                              handle_figure_formula="symbolize")
     tokens = tokenizer(items, key=lambda x: x['stem'])
     ret = next(tokens)
     ret.pop(3)
-    ans = ['公式', '[FORMULA]', '如图', '\\FigureID{088f15ea-xxx}', '[FORMULA]', '约束条件', '公式', '[FORMULA]',
-           '\\SIFSep', '[FORMULA]', '最大值', '\\SIFBlank']
+    ans = [
+        '公式', '[FORMULA]', '如图', '\\FigureID{088f15ea-xxx}', '[FORMULA]',
+        '约束条件', '公式', '[FORMULA]', '\\SIFSep', '[FORMULA]', '最大值', '\\SIFBlank'
+    ]
     ans.pop(3)
     assert ret == ans
